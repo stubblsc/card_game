@@ -2,6 +2,10 @@ require_relative 'player'
 require_relative 'dealer'
 
 class CardGame
+  attr_reader :players
+
+  MAX_PLAYERS = 5
+
   def initialize
     @dealer = Dealer.new
     @players = [@dealer]
@@ -21,20 +25,28 @@ class CardGame
     end
   end
 
-  def add_player
-    puts "Enter player name: "
-    name = gets.chomp
-    @players << Player.new(name)
+  def add_player(name)
+    player = Player.new(name)
+    @players << player
+    player
   end
 
-  def print_game_result
-    @players.each do |player|
+  def remove_player(player)
+    @players.delete(player)
+  end
+
+  def game_results
+    @players.map do |player|
       if player.is_a? Dealer
-        puts player.result(players_only)
+        player.result(players_only)
       else
-        puts player.result(@dealer)
+        player.result(@dealer)
       end
     end
+  end
+
+  def player_count
+    players_only.size
   end
 
   private

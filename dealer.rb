@@ -7,6 +7,7 @@ class Dealer < Player
   end
 
   def result(players)
+    p players
     win_count = players.map(&:score).count{|player_score| player_score < score}
     "#{@name} (Beat #{win_count}): #{@cards.map(&:to_s)} - #{score}"
   end
